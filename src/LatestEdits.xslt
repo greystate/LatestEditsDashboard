@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
+	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
+	<!ENTITY CreatedYesterday "starts-with(@createDate, $yesterday)">
+	<!ENTITY UpdatedYesterday "starts-with(@updateDate, $yesterday)">
+]>
 <?umbraco-package ?>
 <xsl:stylesheet
 	version="1.0"
@@ -27,11 +33,11 @@
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
 
 	<!-- Select ourselves some nodes -->
-	<xsl:variable name="nodesCreatedToday" select="$nodes[starts-with(@createDate, $today)]" />
-	<xsl:variable name="nodesUpdatedToday" select="$nodes[not(starts-with(@createDate, $today))][starts-with(@updateDate, $today)]" />
+	<xsl:variable name="nodesCreatedToday" select="$nodes[&CreatedToday;]" />
+	<xsl:variable name="nodesUpdatedToday" select="$nodes[not(&CreatedToday;)][&UpdatedToday;]" />
 
-	<xsl:variable name="nodesCreatedYesterday" select="$nodes[starts-with(@createDate, $yesterday)]" />
-	<xsl:variable name="nodesUpdatedYesterday" select="$nodes[not(starts-with(@createDate, $yesterday))][starts-with(@updateDate, $yesterday)]" />
+	<xsl:variable name="nodesCreatedYesterday" select="$nodes[&CreatedYesterday;]" />
+	<xsl:variable name="nodesUpdatedYesterday" select="$nodes[not(&CreatedYesterday;)][&UpdatedYesterday;]" />
 	
 	<!-- How much do we need to show at most? -->
 	<xsl:variable name="itemsToShow" select="10" />
