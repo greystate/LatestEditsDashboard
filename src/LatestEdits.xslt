@@ -47,7 +47,7 @@
 		
 		<div class="dashboardWrapper">
 			<h2>Latest edits</h2>
-			<img src="./dashboard/images/logo32x32.png" alt="Umbraco" class="dashboardIcon" />
+			<img src="usercontrols/Vokseverk/LatestEditsDashboard/LatestEdits.png" alt="Latest Edits Icon" class="dashboardIcon" />
 				
 			<h3>Pages created today:</h3>
 			<div class="propertypane">

@@ -13,6 +13,7 @@ xsltproc --novalid --xinclude --output package/LatestEdits.xslt lib/freezeEntiti
 xsltproc --novalid --xinclude --output package/package.xml lib/freezeEntities.xslt src/package.xml
 # Copy Dashboard.ascx to package
 cp src/Dashboard.ascx package/Dashboard.ascx
+cp src/LatestEdits.png package/LatestEdits.png
 
 # Build the ZIP file 
 zip -j dist/Vokseverk.LatestEditsDashboard.zip package/* -x \*.DS_Store

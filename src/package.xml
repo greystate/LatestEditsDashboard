@@ -15,6 +15,11 @@
 			<orgPath>/xslt</orgPath>
 			<orgName>LatestEdits.xslt</orgName>
 		</file>
+		<file>
+			<guid>LatestEditsIcon.png</guid>
+			<orgPath>/usercontrols/Vokseverk/LatestEditsDashboard</orgPath>
+			<orgName>LatestEditsIcon.png</orgName>
+		</file>
 	</files>
 	<info>
 		<package>
