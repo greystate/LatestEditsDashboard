@@ -36,7 +36,7 @@
 		
 		<div class="dashboardWrapper">
 			<h2>Latest edits</h2>
-			<img src="usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon.png" alt="Latest Edits Icon" class="dashboardIcon"/>
+			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon"/>
 				
 			<h3>Pages created today:</h3>
 			<div class="propertypane">

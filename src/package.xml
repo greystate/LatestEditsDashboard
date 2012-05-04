@@ -16,9 +16,9 @@
 			<orgName>LatestEdits.xslt</orgName>
 		</file>
 		<file>
-			<guid>LatestEditsIcon.png</guid>
+			<guid>LatestEditsIcon_32x32.png</guid>
 			<orgPath>/usercontrols/Vokseverk/LatestEditsDashboard</orgPath>
-			<orgName>LatestEditsIcon.png</orgName>
+			<orgName>LatestEditsIcon_32x32.png</orgName>
 		</file>
 	</files>
 	<info>
