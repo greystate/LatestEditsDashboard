@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?umbraco-package "Latest Edits Dashboard (v1.0)"?>
+<?umbraco-package "Latest Edits Dashboard (v1.0.1)"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" version="1.0" exclude-result-prefixes="umb">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
@@ -36,7 +36,7 @@
 		
 		<div class="dashboardWrapper">
 			<h2>Latest edits</h2>
-			<img src="./dashboard/images/logo32x32.png" alt="Umbraco" class="dashboardIcon"/>
+			<img src="usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon.png" alt="Latest Edits Icon" class="dashboardIcon"/>
 				
 			<h3>Pages created today:</h3>
 			<div class="propertypane">
