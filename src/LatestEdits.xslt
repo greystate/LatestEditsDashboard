@@ -97,7 +97,7 @@
 			<li>
 				<span style="color:#999;"><xsl:value-of select="name()" /></span>
 				<xsl:text>: </xsl:text>
-				<span title="{substring(@updateDate, 12, 5)}"><xsl:value-of select="concat(@nodeName, ' ')" /></span>
+				<span><xsl:value-of select="concat(@nodeName, ' ')" /></span>
 				<xsl:apply-templates select="." mode="editLink" />
 				<xsl:apply-templates select="." mode="xmldumpLink" />
 			</li>
