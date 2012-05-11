@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xsl:stylesheet [
+	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
+	<!ENTITY GetRootNodeInTest "/root">
+	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
 	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
 	<!ENTITY CreatedYesterday "starts-with(@createDate, $yesterday)">
@@ -20,7 +23,7 @@
 	<!--
 		Because we're running in a Dashboard, currentPage is AWOL, so we do some other hexerei instead.
 	-->
-	<xsl:variable name="absoluteRoot" select="umb:GetXmlNodeByXPath('/root')" />
+	<xsl:variable name="absoluteRoot" select="&GetRootNodeInTest;" />
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')" />
