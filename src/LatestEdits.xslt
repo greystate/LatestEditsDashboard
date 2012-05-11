@@ -23,7 +23,7 @@
 	<!--
 		Because we're running in a Dashboard, currentPage is AWOL, so we do some other hexerei instead.
 	-->
-	<xsl:variable name="absoluteRoot" select="&GetRootNodeInTest;" />
+	<xsl:variable name="absoluteRoot" select="&GetRootNode;" />
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')" />
