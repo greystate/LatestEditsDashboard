@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<root>
+	<Textpage isDoc="" id="1200" nodeName="Page A" createDate="2012-12-28T00:00:00" updateDate="2012-11-28T00:03:00" />
+	<Textpage isDoc="" id="1200" nodeName="Page B" createDate="2012-12-28T00:01:00" updateDate="2012-11-28T00:02:00" />
+	<Textpage isDoc="" id="1202" nodeName="Page C" createDate="2012-12-28T00:02:00" updateDate="2012-11-28T00:01:00" />
+</root>
