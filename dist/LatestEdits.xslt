@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?umbraco-package "Latest Edits Dashboard (v1.0.1)"?>
+<?umbraco-package "Latest Edits Dashboard (v1.0.2)"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" version="1.0" exclude-result-prefixes="umb">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
@@ -38,45 +38,49 @@
 			<h2>Latest edits</h2>
 			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon"/>
 				
-			<h3>Pages created today:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesCreatedToday">			
-						<xsl:sort select="@createDate" data-type="text" order="descending"/>
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesCreatedToday)"><xsl:call-template name="noNodes"/></xsl:if>
-				</ol>
-			</div>		
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesCreatedToday"/>
+				<xsl:with-param name="action" select="'created'"/>
+				<xsl:with-param name="when" select="'today'"/>	
+			</xsl:call-template>
 
-			<h3>Pages updated today:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesUpdatedToday">
-						<xsl:sort select="@updateDate" data-type="text" order="descending"/>
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesUpdatedToday)"><xsl:call-template name="noNodes"/></xsl:if>
-				</ol>
-			</div>		
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesUpdatedToday"/>
+				<xsl:with-param name="action" select="'updated'"/>
+				<xsl:with-param name="when" select="'today'"/>	
+			</xsl:call-template>
+
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesCreatedYesterday"/>
+				<xsl:with-param name="action" select="'created'"/>
+				<xsl:with-param name="when" select="'yesterday'"/>	
+			</xsl:call-template>
+
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesUpdatedYesterday"/>
+				<xsl:with-param name="action" select="'updated'"/>
+				<xsl:with-param name="when" select="'yesterday'"/>	
+			</xsl:call-template>
+		</div>
+	</xsl:template>
+	
+	<!-- The main output template for each chunk of nodes -->
+	<xsl:template name="outputSection">
+		<xsl:param name="nodes" select="/.."/><!-- Default to an empty set -->
+		<xsl:param name="action" select="'created'"/>
+		<xsl:param name="when" select="'today'"/>
 		
-			<h3>Pages created yesterday:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesCreatedYesterday">
-						<xsl:sort select="@createDate" data-type="text" order="descending"/>
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesCreatedYesterday)"><xsl:call-template name="noNodes"/></xsl:if>
-				</ol>
-			</div>		
-		
-			<h3>Pages updated yesterday:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesUpdatedYesterday">
-						<xsl:sort select="@updateDate" data-type="text" order="descending"/>
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesUpdatedYesterday)"><xsl:call-template name="noNodes"/></xsl:if>
-				</ol>
-			</div>
+		<h3>
+			<xsl:value-of select="concat('Pages ', $action, ' ', $when, ':')"/>
+		</h3>
+		<div class="propertypane">
+			<ol>
+				<xsl:apply-templates select="$nodes">
+					<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending"/>
+					<xsl:sort select="@createDate[$action = 'created']" data-type="text" order="descending"/>
+				</xsl:apply-templates>
+				<xsl:if test="not($nodes)"><xsl:call-template name="noNodes"/></xsl:if>
+			</ol>
 		</div>
 	</xsl:template>
 	
@@ -86,7 +90,7 @@
 			<li>
 				<span style="color:#999;"><xsl:value-of select="name()"/></span>
 				<xsl:text>: </xsl:text>
-				<span title="{substring(@updateDate, 12, 5)}"><xsl:value-of select="concat(@nodeName, ' ')"/></span>
+				<span><xsl:value-of select="concat(@nodeName, ' ')"/></span>
 				<xsl:apply-templates select="." mode="editLink"/>
 				<xsl:apply-templates select="." mode="xmldumpLink"/>
 			</li>
