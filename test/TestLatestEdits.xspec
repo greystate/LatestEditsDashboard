@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<x:description
+	stylesheet="../src/LatestEdits.xslt"
+	xslt-version="1.0"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+>
+	<x:scenario label="calling outputSection with an empty set">
+		<x:call template="outputSection">
+			<x:param name="nodes" select="/.." />
+		</x:call>
+		<x:expect label="it should default to 'created today', but return no results">
+			<h3>Pages created today:</h3>
+			<div class="propertypane">
+				<ol>
+					<li style="list-style-type:square;">(none)</li>
+				</ol>
+			</div>
+		</x:expect>
+	</x:scenario>
+
+</x:description>
