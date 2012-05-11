@@ -3,19 +3,67 @@
 	stylesheet="../src/LatestEdits.xslt"
 	xslt-version="1.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:fn="http://www.w3.org/2004/07/xpath-functions"
 >
-	<x:scenario label="calling outputSection with an empty set">
-		<x:call template="outputSection">
-			<x:param name="nodes" select="/.." />
-		</x:call>
-		<x:expect label="it should default to 'created today', but return no results">
-			<h3>Pages created today:</h3>
-			<div class="propertypane">
-				<ol>
-					<li style="list-style-type:square;">(none)</li>
-				</ol>
-			</div>
-		</x:expect>
-	</x:scenario>
+	<x:scenario label="calling outputSection">
+		<x:call template="outputSection" />
 
+		<x:scenario label="with an empty set">
+			<x:call>
+				<x:param name="nodes" select="/.." />
+			</x:call>
+			<x:expect label="it should default to 'created today', but return no results">
+				<h3>Pages created today:</h3>
+				<div class="propertypane">
+					<ol>
+						<li style="list-style-type:square;">(none)</li>
+					</ol>
+				</div>
+			</x:expect>
+		</x:scenario>
+	
+		<x:scenario label="with the action 'created'">
+			<x:call>
+				<x:param name="action" select="'created'" />
+			</x:call>
+			<x:expect label="it should use that action in the header" test="contains(h3, 'created')" />
+		</x:scenario>
+	
+		<x:scenario label="with the when parameter set to 'yesterday'">
+			<x:call>
+				<x:param name="when" select="'yesterday'" />
+			</x:call>
+			<x:expect label="it should use that in the header" test="contains(h3, 'yesterday')" />
+		</x:scenario>
+	
+		<x:scenario label="with a set of nodes">
+			<x:call>
+				<x:param name="nodes" select="document('fixture.xml', /)/root/Textpage" />
+			</x:call>
+			<x:expect label="they should sort by the createDate attribute" test="div/ol">
+				<ol>
+					<li><span style="...">...</span>: <span>Page C </span><a href="..." title="...">...</a></li>
+					<li><span style="...">...</span>: <span>Page B </span><a href="..." title="...">...</a></li>
+					<li><span style="...">...</span>: <span>Page A </span><a href="..." title="...">...</a></li>
+				</ol>
+			</x:expect>
+			
+			<x:scenario label="specifying 'updated' in the action parameter">
+				<x:call>
+					<x:param name="action" select="'updated'" />
+				</x:call>
+				<x:expect label="it should say 'updated today' in the header" test="contains(h3, 'updated today')" />
+				<x:expect label="they should sort by the updateDate attribute" test="div/ol">
+					<ol>
+						<li><span style="...">...</span>: <span>Page A </span><a href="..." title="...">...</a></li>
+						<li><span style="...">...</span>: <span>Page B </span><a href="..." title="...">...</a></li>
+						<li><span style="...">...</span>: <span>Page C </span><a href="..." title="...">...</a></li>
+					</ol>
+				</x:expect>
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+	</x:scenario>	
 </x:description>
