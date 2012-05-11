@@ -52,45 +52,29 @@
 			<h2>Latest edits</h2>
 			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
 				
-			<h3>Pages created today:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesCreatedToday">			
-						<xsl:sort select="@createDate" data-type="text" order="descending" />
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesCreatedToday)"><xsl:call-template name="noNodes" /></xsl:if>
-				</ol>
-			</div>		
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesCreatedToday" />
+				<xsl:with-param name="action" select="'created'" />
+				<xsl:with-param name="when" select="'today'" />	
+			</xsl:call-template>
 
-			<h3>Pages updated today:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesUpdatedToday">
-						<xsl:sort select="@updateDate" data-type="text" order="descending" />
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesUpdatedToday)"><xsl:call-template name="noNodes" /></xsl:if>
-				</ol>
-			</div>		
-		
-			<h3>Pages created yesterday:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesCreatedYesterday">
-						<xsl:sort select="@createDate" data-type="text" order="descending" />
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesCreatedYesterday)"><xsl:call-template name="noNodes" /></xsl:if>
-				</ol>
-			</div>		
-		
-			<h3>Pages updated yesterday:</h3>
-			<div class="propertypane">
-				<ol>
-					<xsl:apply-templates select="$nodesUpdatedYesterday">
-						<xsl:sort select="@updateDate" data-type="text" order="descending" />
-					</xsl:apply-templates>
-					<xsl:if test="not($nodesUpdatedYesterday)"><xsl:call-template name="noNodes" /></xsl:if>
-				</ol>
-			</div>
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesUpdatedToday" />
+				<xsl:with-param name="action" select="'updated'" />
+				<xsl:with-param name="when" select="'today'" />	
+			</xsl:call-template>
+
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesCreatedYesterday" />
+				<xsl:with-param name="action" select="'created'" />
+				<xsl:with-param name="when" select="'yesterday'" />	
+			</xsl:call-template>
+
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$nodesUpdatedYesterday" />
+				<xsl:with-param name="action" select="'updated'" />
+				<xsl:with-param name="when" select="'yesterday'" />	
+			</xsl:call-template>
 		</div>
 	</xsl:template>
 	
