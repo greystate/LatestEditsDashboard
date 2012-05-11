@@ -91,6 +91,26 @@
 		</div>
 	</xsl:template>
 	
+	<!-- The main output template for each chunk of nodes -->
+	<xsl:template name="outputSection">
+		<xsl:param name="nodes" select="/.." /><!-- Default to an empty set -->
+		<xsl:param name="action" select="'created'" />
+		<xsl:param name="when" select="'today'" />
+		
+		<h3>
+			<xsl:value-of select="concat('Pages ', $action, ' ', $when, ':')" />
+		</h3>
+		<div class="propertypane">
+			<ol>
+				<xsl:apply-templates select="$nodes">
+					<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
+					<xsl:sort select="@createDate[$action = 'created']" data-type="text" order="descending" />
+				</xsl:apply-templates>
+				<xsl:if test="not($nodes)"><xsl:call-template name="noNodes" /></xsl:if>
+			</ol>
+		</div>
+	</xsl:template>
+	
 	<!-- This is the output template for each item -->
 	<xsl:template match="*[@isDoc]">
 		<xsl:if test="position() &lt;= $itemsToShow">
