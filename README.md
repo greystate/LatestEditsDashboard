@@ -41,6 +41,10 @@ The best part is: It's just a standard XSLT Macro (yes, XSLT) that you can edit 
 Have to see more than 10 entries per section? Change the `itemsToShow` variable, hit "Save" - and there you have it.
 Need to filter out some DocumentTypes? Change the `nodes` variable. Etc.
 
+## Upgrade info
+
+Usually you can just upload the new XSLT file (grab it from the `dist` folder on [GitHub](https://github.com/greystate/LatestEditsDashboard/tree/master/dist)), otherwise you should uninstall the old version first, then install the new version.
+
 ## Revision History
 
 * v1.1: Add latest Media uploads from specific folder
