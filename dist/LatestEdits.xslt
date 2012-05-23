@@ -12,7 +12,8 @@
 	<xsl:variable name="absoluteRoot" select="umb:GetXmlNodeByXPath('/root')"/>
 
 	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
-	<xsl:variable name="mediaRoot" select="umb:GetMedia(0, true())/Folder"/>
+	<xsl:variable name="mediaFolderId" select="0"/>
+	<xsl:variable name="mediaRoot" select="umb:GetMedia($mediaFolderId, true())/Folder"/>
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')"/>
@@ -79,6 +80,10 @@
 		
 		<div class="dashboardWrapper" style="width:48%;float:right;">
 			<h2 style="padding-left:0">New media uploads</h2>
+			
+			<xsl:if test="$mediaFolderId = 0">
+				<p style="color:#900">(Not configured yet)</p>
+			</xsl:if>
 			
 			<xsl:call-template name="outputMediaSection">
 				<xsl:with-param name="nodes" select="$mediaCreatedToday"/>
