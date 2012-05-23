@@ -2,6 +2,8 @@
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
 	<!ENTITY GetRootNodeInTest "/root">
+	<!ENTITY GetMediaFolder "umb:GetMedia($mediaRoot, true())">
+	<!ENTITY GetMediaFolderInTest "document('../test/media.xml', /)/root/Folder">
 	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
 	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
@@ -23,7 +25,10 @@
 	<!--
 		Because we're running in a Dashboard, currentPage is AWOL, so we do some other hexerei instead.
 	-->
-	<xsl:variable name="absoluteRoot" select="&GetRootNode;" />
+	<xsl:variable name="absoluteRoot" select="&GetRootNodeInTest;" />
+
+	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
+	<xsl:variable name="mediaRoot" select="0" />
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')" />
@@ -31,6 +36,9 @@
 
 	<!-- Grab all nodes, so we're only "double-dashing" this once -->
 	<xsl:variable name="nodes" select="$absoluteRoot//*[@isDoc]" />
+
+	<!-- Grab the Media too -->
+	<xsl:variable name="media" select="&GetMediaFolderInTest;" />
 	
 	<!-- Check if XMLDump is active -->
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
@@ -42,13 +50,16 @@
 	<xsl:variable name="nodesCreatedYesterday" select="$nodes[&CreatedYesterday;]" />
 	<xsl:variable name="nodesUpdatedYesterday" select="$nodes[not(&CreatedYesterday;)][&UpdatedYesterday;]" />
 	
+	<xsl:variable name="mediaCreatedToday" select="$media[&CreatedToday;]" />	
+	
 	<!-- How much do we need to show at most? -->
 	<xsl:variable name="itemsToShow" select="10" />
+	<xsl:variable name="mediaItemsToShow" select="10" />
 
 	<!-- Now let's do this -->
 	<xsl:template match="/">
 		
-		<div class="dashboardWrapper">
+		<div class="dashboardWrapper" style="width:50%;float:left;">
 			<h2>Latest edits</h2>
 			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
 				
@@ -76,6 +87,14 @@
 				<xsl:with-param name="when" select="'yesterday'" />	
 			</xsl:call-template>
 		</div>
+		
+		<div class="dashboardWrapper" style="width:50%;float:right;">
+			<xsl:call-template name="outputSection">
+				<xsl:with-param name="nodes" select="$mediaCreatedToday" />
+				<xsl:with-param name="action" select="'created'" />
+				<xsl:with-param name="when" select="'today'" />
+			</xsl:call-template>
+		</div>
 	</xsl:template>
 	
 	<!-- The main output template for each chunk of nodes -->
@@ -98,6 +117,25 @@
 		</div>
 	</xsl:template>
 	
+	<xsl:template name="outputMediaSection">
+		<xsl:param name="nodes" select="/.." />
+		<xsl:param name="action" select="'created'" />
+		<xsl:param name="when" select="'today'" />
+		
+		<h3>
+			<xsl:value-of select="concat('Media ', $action, ' ', $when, ':')" />
+		</h3>
+		<div class="propertypane">		
+			<xsl:apply-templates select="$nodes" mode="media">
+				<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
+				<xsl:sort select="@createDate[$action = 'created']" data-type="text" order="descending" />
+			</xsl:apply-templates>
+			<xsl:if test="not($nodes)">
+				<p>(none)</p>
+			</xsl:if>
+		</div>
+	</xsl:template>
+	
 	<!-- This is the output template for each item -->
 	<xsl:template match="*[@isDoc]">
 		<xsl:if test="position() &lt;= $itemsToShow">
@@ -111,6 +149,17 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<xsl:template match="*" mode="media">
+		<xsl:variable name="file" select="umbracoFile" />
+		<!-- Get the default Umbraco thumbnail -->
+		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.', umbracoExtension)" />
+		<xsl:if test="position() &lt;= $mediaItemsToShow">
+			<a href="/umbraco/editMedia.aspx?id={@id}" title="Click to edit..." target="_blank">
+				<img src="{$thumbnail}" alt="{@nodeName}" height="100" />
+			</a>
+		</xsl:if>
+	</xsl:template>
+	
 	<!-- Output if no nodes were created/updated -->
 	<xsl:template name="noNodes">
 		<li style="list-style-type:square;">(none)</li>
@@ -119,7 +168,7 @@
 	<xsl:template match="*[@isDoc]" mode="editLink">
 		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">Edit</a>
 	</xsl:template>
-	
+		
 	<xsl:template match="*[@isDoc]" mode="xmldumpLink">
 		<xsl:if test="$hasXMLDump">
 			<xsl:text> | </xsl:text>
