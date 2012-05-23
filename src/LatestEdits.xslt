@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
-	<!ENTITY GetRootNodeInTest "/root">
-	<!ENTITY GetMediaFolder "umb:GetMedia($mediaRoot, true())">
-	<!ENTITY GetMediaFolderInTest "document('../test/media.xml', /)/root/Folder">
+	<!ENTITY GetMediaFolder "umb:GetMedia(0, true())/Folder">
 	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
 	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
@@ -43,18 +41,23 @@
 	<!-- Check if XMLDump is active -->
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
 
-	<!-- Select ourselves some nodes -->
+	<!-- Select ourselves some Content nodes -->
 	<xsl:variable name="nodesCreatedToday" select="$nodes[&CreatedToday;]" />
 	<xsl:variable name="nodesUpdatedToday" select="$nodes[not(&CreatedToday;)][&UpdatedToday;]" />
 
 	<xsl:variable name="nodesCreatedYesterday" select="$nodes[&CreatedYesterday;]" />
 	<xsl:variable name="nodesUpdatedYesterday" select="$nodes[not(&CreatedYesterday;)][&UpdatedYesterday;]" />
 	
+	<!-- ... and then the Media nodes -->
 	<xsl:variable name="mediaCreatedToday" select="$media[&CreatedToday;]" />	
+	<xsl:variable name="mediaUpdatedToday" select="$media[not(&CreatedToday;)][&UpdatedToday;]" />
 	
+	<xsl:variable name="mediaCreatedYesterday" select="$media[&CreatedYesterday;]" />
+	<xsl:variable name="mediaUpdatedYesterday" select="$media[not(&CreatedYesterday;)][&UpdatedYesterday;]" />
+
 	<!-- How much do we need to show at most? -->
 	<xsl:variable name="itemsToShow" select="10" />
-	<xsl:variable name="mediaItemsToShow" select="10" />
+	<xsl:variable name="mediaItemsToShow" select="16" />
 
 	<!-- Now let's do this -->
 	<xsl:template match="/">
@@ -89,12 +92,18 @@
 		</div>
 		
 		<div class="dashboardWrapper" style="width:48%;float:right;">
-			<h2 style="padding-left:0">Media</h2>
+			<h2 style="padding-left:0">New media uploads</h2>
 			
 			<xsl:call-template name="outputMediaSection">
 				<xsl:with-param name="nodes" select="$mediaCreatedToday" />
 				<xsl:with-param name="action" select="'created'" />
 				<xsl:with-param name="when" select="'today'" />
+			</xsl:call-template>
+			
+			<xsl:call-template name="outputMediaSection">
+				<xsl:with-param name="nodes" select="$mediaCreatedYesterday" />
+				<xsl:with-param name="action" select="'created'" />
+				<xsl:with-param name="when" select="'yesterday'" />
 			</xsl:call-template>
 		</div>
 	</xsl:template>
@@ -127,7 +136,7 @@
 		<h3 style="text-transform:capitalize">
 			<xsl:value-of select="$when" />
 		</h3>
-		<div>
+		<div style="padding-bottom:20px;">
 			<xsl:apply-templates select="$nodes" mode="media">
 				<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
 				<xsl:sort select="@createDate[$action = 'created']" data-type="text" order="descending" />
@@ -154,8 +163,8 @@
 		<!-- Get the default Umbraco thumbnail -->
 		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.', umbracoExtension)" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
-			<a href="/umbraco/editMedia.aspx?id={@id}" title="Click to edit..." target="_blank">
-				<img src="{$thumbnail}" alt="{@nodeName}" width="100" />
+			<a href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)" style="float:left; width:100px; display:block; margin:0 5px 5px 0;">
+				<img style="-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);-mox-box-shadow:0 1px 2px rgba(0,0,0,0.3);box-shadow:0 1px 2px rgba(0,0,0,0.3);" src="{$thumbnail}" alt="{@nodeName}" width="100" />
 			</a>
 		</xsl:if>
 	</xsl:template>
