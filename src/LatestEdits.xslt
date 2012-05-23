@@ -25,10 +25,10 @@
 	<!--
 		Because we're running in a Dashboard, currentPage is AWOL, so we do some other hexerei instead.
 	-->
-	<xsl:variable name="absoluteRoot" select="&GetRootNodeInTest;" />
+	<xsl:variable name="absoluteRoot" select="&GetRootNode;" />
 
 	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
-	<xsl:variable name="mediaRoot" select="0" />
+	<xsl:variable name="mediaRoot" select="&GetMediaFolder;" />
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')" />
@@ -38,7 +38,7 @@
 	<xsl:variable name="nodes" select="$absoluteRoot//*[@isDoc]" />
 
 	<!-- Grab the Media too -->
-	<xsl:variable name="media" select="&GetMediaFolderInTest;" />
+	<xsl:variable name="media" select="$mediaRoot//*[umbracoFile]" />
 	
 	<!-- Check if XMLDump is active -->
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
@@ -59,7 +59,7 @@
 	<!-- Now let's do this -->
 	<xsl:template match="/">
 		
-		<div class="dashboardWrapper" style="width:50%;float:left;">
+		<div class="dashboardWrapper" style="width:48%;float:left;">
 			<h2>Latest edits</h2>
 			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
 				
@@ -88,8 +88,10 @@
 			</xsl:call-template>
 		</div>
 		
-		<div class="dashboardWrapper" style="width:50%;float:right;">
-			<xsl:call-template name="outputSection">
+		<div class="dashboardWrapper" style="width:48%;float:right;">
+			<h2 style="padding-left:0">Media</h2>
+			
+			<xsl:call-template name="outputMediaSection">
 				<xsl:with-param name="nodes" select="$mediaCreatedToday" />
 				<xsl:with-param name="action" select="'created'" />
 				<xsl:with-param name="when" select="'today'" />
@@ -122,17 +124,15 @@
 		<xsl:param name="action" select="'created'" />
 		<xsl:param name="when" select="'today'" />
 		
-		<h3>
-			<xsl:value-of select="concat('Media ', $action, ' ', $when, ':')" />
+		<h3 style="text-transform:capitalize">
+			<xsl:value-of select="$when" />
 		</h3>
-		<div class="propertypane">		
+		<div>
 			<xsl:apply-templates select="$nodes" mode="media">
 				<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
 				<xsl:sort select="@createDate[$action = 'created']" data-type="text" order="descending" />
 			</xsl:apply-templates>
-			<xsl:if test="not($nodes)">
-				<p>(none)</p>
-			</xsl:if>
+			<xsl:if test="not($nodes)"><p>(none)</p></xsl:if>
 		</div>
 	</xsl:template>
 	
@@ -155,7 +155,7 @@
 		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.', umbracoExtension)" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
 			<a href="/umbraco/editMedia.aspx?id={@id}" title="Click to edit..." target="_blank">
-				<img src="{$thumbnail}" alt="{@nodeName}" height="100" />
+				<img src="{$thumbnail}" alt="{@nodeName}" width="100" />
 			</a>
 		</xsl:if>
 	</xsl:template>
