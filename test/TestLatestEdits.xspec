@@ -63,7 +63,31 @@
 			</x:scenario>
 			
 		</x:scenario>
-		
-		
-	</x:scenario>	
+
+	</x:scenario>
+	
+	<x:scenario label="calling outputMediaSection" focus="Testing Media output">
+		<x:call template="outputMediaSection" />
+
+		<x:scenario label="with an empty set">
+			<x:call>
+				<x:param name="nodes" select="/.." />
+			</x:call>
+			<x:expect label="it should default to 'created today', but return no results">
+				<h3>Media created today:</h3>
+				<div class="propertypane">
+					<p>(none)</p>
+				</div>
+			</x:expect>
+		</x:scenario>
+	
+		<x:scenario label="with the action 'created'">
+			<x:call>
+				<x:param name="action" select="'created'" />
+			</x:call>
+			<x:expect label="it should use that action in the header" test="contains(h3, 'created')" />
+		</x:scenario>
+
+	</x:scenario>
+	
 </x:description>
