@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
-	<!ENTITY GetMediaFolder "umb:GetMedia(0, true())/Folder">
+	<!ENTITY mediaFolderId "0">
+	<!ENTITY GetMediaFolder "umb:GetMedia($mediaFolderId, true())/Folder">
 	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
 	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
@@ -26,6 +27,7 @@
 	<xsl:variable name="absoluteRoot" select="&GetRootNode;" />
 
 	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
+	<xsl:variable name="mediaFolderId" select="0" />
 	<xsl:variable name="mediaRoot" select="&GetMediaFolder;" />
 	
 	<!-- Do the date stuff -->
@@ -93,6 +95,10 @@
 		
 		<div class="dashboardWrapper" style="width:48%;float:right;">
 			<h2 style="padding-left:0">New media uploads</h2>
+			
+			<xsl:if test="$mediaFolderId = 0">
+				<p style="color:#900">(Not configured yet)</p>
+			</xsl:if>
 			
 			<xsl:call-template name="outputMediaSection">
 				<xsl:with-param name="nodes" select="$mediaCreatedToday" />
