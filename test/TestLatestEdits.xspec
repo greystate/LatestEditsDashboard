@@ -87,6 +87,17 @@
 			</x:call>
 			<x:expect label="it should use that action in the header" test="contains(h3, 'created')" />
 		</x:scenario>
+		
+		<x:scenario label="with a set of media nodes">
+			<x:call>
+				<x:param name="nodes" select="document('media.xml', /)/root/Folder/Image" />
+			</x:call>
+			<x:expect label="they should sort by the createDate attribute" test="div/a">
+				<a href="/umbraco/editMedia.aspx?id=1146" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
+				<a href="/umbraco/editMedia.aspx?id=1145" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
+				<a href="/umbraco/editMedia.aspx?id=1144" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
+			</x:expect>
+		</x:scenario>
 
 	</x:scenario>
 	
