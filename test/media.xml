@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<root id="-1">
+	<Folder id="1141" version="9732104c-fc06-40b7-872f-b60c66c96a41" parentID="1140" level="2" writerID="0" nodeType="1031" template="0" sortOrder="1" createDate="2012-03-09T13:38:45" updateDate="2012-03-09T13:38:03" nodeName="Launch" urlName="launch" writerName="Administrator" nodeTypeAlias="Folder" path="-1,1140,1141">
+		<contents/>
+		<Image id="1144" version="4f4bc68a-a425-4269-8c8c-702d57fe2709" parentID="1141" level="3" writerID="0" nodeType="1032" template="0" sortOrder="1" createDate="2012-03-09T14:00:11" updateDate="2012-03-09T13:59:29" nodeName="Frida" urlName="frida" writerName="Administrator" nodeTypeAlias="Image" path="-1,1140,1141,1144">
+			<umbracoFile>/media/1236/kritik-1.jpg</umbracoFile>
+			<umbracoWidth>800</umbracoWidth>
+			<umbracoHeight>1200</umbracoHeight>
+			<umbracoBytes>653696</umbracoBytes>
+			<umbracoExtension>jpg</umbracoExtension>
+			<cropping>
+				<crops date="2012-03-09T14:00:43">
+					<crop name="Main" x="0" y="320" x2="800" y2="790" url="/media/1236/kritik-1_Main.jpg"/>
+					<crop name="Fokus" x="0" y="255" x2="800" y2="818" url="/media/1236/kritik-1_Fokus.jpg"/>
+					<crop name="Linie" x="0" y="418" x2="800" y2="739" url="/media/1236/kritik-1_Linie.jpg"/>
+					<crop name="LinieThumb" x="0" y="223" x2="800" y2="838" url="/media/1236/kritik-1_LinieThumb.jpg"/>
+					<crop name="Branding" x="0" y="182" x2="800" y2="888" url="/media/1236/kritik-1_Branding.jpg"/>
+					<crop name="Galleri" x="0" y="257" x2="800" y2="869" url="/media/1236/kritik-1_Galleri.jpg"/>
+				</crops>
+			</cropping>
+		</Image>
+		<Image id="1145" version="fefbd25a-b67c-4ec5-a624-7ce4c3549de0" parentID="1141" level="3" writerID="0" nodeType="1032" template="0" sortOrder="2" createDate="2012-03-09T14:00:55" updateDate="2012-03-09T14:00:13" nodeName="Can" urlName="can" writerName="Administrator" nodeTypeAlias="Image" path="-1,1140,1141,1145">
+			<umbracoFile>/media/1242/kritik-3.jpg</umbracoFile>
+			<umbracoWidth>800</umbracoWidth>
+			<umbracoHeight>799</umbracoHeight>
+			<umbracoBytes>359834</umbracoBytes>
+			<umbracoExtension>jpg</umbracoExtension>
+			<cropping>
+				<crops date="2012-03-09T14:01:01">
+					<crop name="Main" x="0" y="112" x2="800" y2="582" url="/media/1242/kritik-3_Main.jpg"/>
+					<crop name="Fokus" x="0" y="108" x2="800" y2="670" url="/media/1242/kritik-3_Fokus.jpg"/>
+					<crop name="Linie" x="0" y="169" x2="800" y2="490" url="/media/1242/kritik-3_Linie.jpg"/>
+					<crop name="LinieThumb" x="0" y="98" x2="800" y2="713" url="/media/1242/kritik-3_LinieThumb.jpg"/>
+					<crop name="Branding" x="0" y="50" x2="800" y2="756" url="/media/1242/kritik-3_Branding.jpg"/>
+					<crop name="Galleri" x="0" y="108" x2="800" y2="721" url="/media/1242/kritik-3_Galleri.jpg"/>
+				</crops>
+			</cropping>
+		</Image>
+		<Image id="1146" version="19f48ce2-9cf3-492b-81d9-5456ae3ba645" parentID="1141" level="3" writerID="0" nodeType="1032" template="0" sortOrder="3" createDate="2012-03-09T14:01:14" updateDate="2012-03-09T14:00:32" nodeName="Egmont" urlName="egmont" writerName="Administrator" nodeTypeAlias="Image" path="-1,1140,1141,1146">
+			<umbracoFile>/media/1248/kritik-5.jpg</umbracoFile>
+			<umbracoWidth>800</umbracoWidth>
+			<umbracoHeight>533</umbracoHeight>
+			<umbracoBytes>522421</umbracoBytes>
+			<umbracoExtension>jpg</umbracoExtension>
+			<cropping>
+				<crops date="2012-03-09T14:01:20">
+					<crop name="Main" x="0" y="64" x2="799" y2="533" url="/media/1248/kritik-5_Main.jpg"/>
+					<crop name="Fokus" x="0" y="0" x2="759" y2="533" url="/media/1248/kritik-5_Fokus.jpg"/>
+					<crop name="Linie" x="0" y="209" x2="800" y2="530" url="/media/1248/kritik-5_Linie.jpg"/>
+					<crop name="LinieThumb" x="0" y="0" x2="692" y2="533" url="/media/1248/kritik-5_LinieThumb.jpg"/>
+					<crop name="Branding" x="0" y="0" x2="604" y2="533" url="/media/1248/kritik-5_Branding.jpg"/>
+					<crop name="Galleri" x="0" y="0" x2="695" y2="533" url="/media/1248/kritik-5_Galleri.jpg"/>
+				</crops>
+			</cropping>
+		</Image>
+	</Folder>
+</root>
