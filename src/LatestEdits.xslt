@@ -2,7 +2,7 @@
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
 	<!ENTITY mediaFolderId "0">
-	<!ENTITY GetMediaFolder "umb:GetMedia($mediaFolderId, true())/Folder">
+	<!ENTITY GetMediaFolder "umb:GetMedia($mediaFolderId, true())">
 	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
 	<!ENTITY UpdatedToday "starts-with(@updateDate, $today)">
