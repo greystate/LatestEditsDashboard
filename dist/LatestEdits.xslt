@@ -13,7 +13,7 @@
 
 	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
 	<xsl:variable name="mediaFolderId" select="0"/>
-	<xsl:variable name="mediaRoot" select="umb:GetMedia($mediaFolderId, true())/Folder"/>
+	<xsl:variable name="mediaRoot" select="umb:GetMedia($mediaFolderId, true())"/>
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')"/>
@@ -124,7 +124,7 @@
 		<xsl:param name="action" select="'created'"/>
 		<xsl:param name="when" select="'today'"/>
 		
-		<h3 style="text-transform:capitalize">
+		<h3 style="text-transform:capitalize;clear:both;">
 			<xsl:value-of select="$when"/>
 		</h3>
 		<div style="padding-bottom:20px;">
@@ -152,7 +152,7 @@
 	<xsl:template match="*" mode="media">
 		<xsl:variable name="file" select="umbracoFile"/>
 		<!-- Get the default Umbraco thumbnail -->
-		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.', umbracoExtension)"/>
+		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.jpg')"/>
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
 			<a href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)" style="float:left; width:100px; display:block; margin:0 5px 5px 0;">
 				<img style="-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);-mox-box-shadow:0 1px 2px rgba(0,0,0,0.3);box-shadow:0 1px 2px rgba(0,0,0,0.3);" src="{$thumbnail}" alt="{@nodeName}" width="100"/>
