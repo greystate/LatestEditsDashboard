@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?umbraco-package "Latest Edits Dashboard (v1.1)"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" version="1.0" exclude-result-prefixes="umb">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" xmlns:ucom="urn:ucomponents.media" xmlns:make="urn:schemas-microsoft-com:xslt" version="1.0" exclude-result-prefixes="umb ucom make">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
 
@@ -11,9 +11,22 @@
 	-->
 	<xsl:variable name="absoluteRoot" select="umb:GetXmlNodeByXPath('/root')"/>
 
-	<!-- I don't know how to do this yet, so you need to put a Media Folder id in here: -->
+	<!-- Check for uComponents availability -->
+	<xsl:variable name="uComponentsAvailable" select="function-available('ucom:GetMediaByXPath')"/>
+
+	<!-- If you don't have uComponents (or haven't activated the Media XSLT extensions), you need to put a Media Folder id in here: -->
 	<xsl:variable name="mediaFolderId" select="0"/>
-	<xsl:variable name="mediaRoot" select="umb:GetMedia($mediaFolderId, true())"/>
+	<xsl:variable name="mediaRootProxy">
+		<xsl:choose>
+			<xsl:when test="$uComponentsAvailable">
+				<xsl:copy-of select="ucom:GetMediaByXPath('/')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="umb:GetMedia($mediaFolderId, true())"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="mediaRoot" select="make:node-set($mediaRootProxy)"/>
 	
 	<!-- Do the date stuff -->
 	<xsl:variable name="today" select="substring-before(umb:CurrentDate(), 'T')"/>
@@ -81,7 +94,7 @@
 		<div class="dashboardWrapper" style="width:48%;float:right;">
 			<h2 style="padding-left:0">New media uploads</h2>
 			
-			<xsl:if test="$mediaFolderId = 0">
+			<xsl:if test="$mediaFolderId = 0 and not($uComponentsAvailable)">
 				<p style="color:#900">(Not configured yet)</p>
 			</xsl:if>
 			
