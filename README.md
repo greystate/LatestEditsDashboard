@@ -26,7 +26,7 @@ It puts an "Edit" link right next to each node, so you can jump immediately to t
 
 Umbraco's default thumbnail will be shown for the lateset 16 items, each wrapped in a link so you can go directly to the specific item in the Media section.
 
-**Note:** *As of now, I don't know how to access the Media "root" node from XSLT, so you'll need to manually insert the id of the topmost mediafolder you want to "monitor".* Look for the variable `mediaFolderId` in the XSLT - replace the zero with your id:
+**Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderId` in the XSLT - replace the zero with the id of the Media folder you want to "monitor":*
 
 ```xslt
 <xsl:variable name="mediaFolderId" select="0" />
