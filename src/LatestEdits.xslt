@@ -36,11 +36,11 @@
 	<xsl:variable name="mediaFolderId" select="0" />
 	<xsl:variable name="mediaRootProxy">
 		<xsl:choose>
-			<xsl:when test="$uComponentsAvailable">
-				<xsl:copy-of select="&GetMediaByXPath;('/')" />
+			<xsl:when test="$mediaFolderId &gt; 0 and not($uComponentsAvailable)">
+				<xsl:copy-of select="&GetMediaFolder;" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:copy-of select="&GetMediaFolder;" />
+				<xsl:copy-of select="&GetMediaByXPath;('/')" />								
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
