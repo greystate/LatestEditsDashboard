@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?umbraco-package "Latest Edits Dashboard (v1.1)"?>
+<?umbraco-package "Latest Edits Dashboard (v1.1.1)"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" xmlns:ucom="urn:ucomponents.media" xmlns:make="urn:schemas-microsoft-com:xslt" version="1.0" exclude-result-prefixes="umb ucom make">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>

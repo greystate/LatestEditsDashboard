@@ -32,8 +32,6 @@ Umbraco's default thumbnail will be shown for the lateset 16 items, each wrapped
 <xsl:variable name="mediaFolderId" select="0" />
 ```
 
-If you know of a smart way to circumvent this (e.g., providing a dropdown of folders?), please let me know.
-
 ## Customization
 
 The best part is: It's just a standard XSLT Macro (yes, XSLT) that you can edit to your heart's extent.
@@ -47,9 +45,10 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 
 ## Revision History
 
-* v1.1: Add latest Media uploads from specific folder
+* v1.1.1: Autodetect uComponents Media XSLT Extensions
+* v1.1:   Add latest Media uploads from specific folder
 * v1.0.2: Added proper icon; refactored code
-* v1.0: Initial release
+* v1.0:   Initial release
 
 /Chriztian Steinmeier, May 2012
 
