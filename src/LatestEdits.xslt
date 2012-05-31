@@ -36,11 +36,14 @@
 	<xsl:variable name="mediaFolderId" select="0" />
 	<xsl:variable name="mediaRootProxy">
 		<xsl:choose>
-			<xsl:when test="$mediaFolderId &gt; 0 and not($uComponentsAvailable)">
+			<xsl:when test="$uComponentsAvailable">
+				<xsl:copy-of select="&GetMediaByXPath;('/')" />
+			</xsl:when>
+			<xsl:when test="$mediaFolderId &gt; 0">
 				<xsl:copy-of select="&GetMediaFolder;" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:copy-of select="&GetMediaByXPath;('/')" />								
+				<message>(Not configured yet)</message>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -112,8 +115,10 @@
 		<div class="dashboardWrapper" style="width:48%;float:right;">
 			<h2 style="padding-left:0">New media uploads</h2>
 			
-			<xsl:if test="$mediaFolderId = 0 and not($uComponentsAvailable)">
-				<p style="color:#900">(Not configured yet)</p>
+			<xsl:if test="$mediaRoot[message]">
+				<p style="color:#900">
+					<xsl:value-of select="$mediaRoot/message" />
+				</p>
 			</xsl:if>
 			
 			<xsl:call-template name="outputMediaSection">
