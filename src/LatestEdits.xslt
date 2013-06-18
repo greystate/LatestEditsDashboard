@@ -82,7 +82,11 @@
 
 	<!-- Now let's do this -->
 	<xsl:template match="/">
-		
+		<!-- I know - not the best thing to do :-) -->
+		<style type="text/css">
+			a.latesteditsmedia { border: 1px solid #999; float: left; width: 120px; height: 120px; display: block; text-align: center; margin: 0 5px 5px 0; background: #eee; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3); -mox-box-shadow: 0 1px 2px rgba(0,0,0,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+			.latesteditsmedia img { margin: 8px; border: 1px solid #ccc; }
+		</style>
 		<div class="dashboardWrapper" style="width:48%;float:left;">
 			<h2>Latest edits</h2>
 			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
@@ -190,8 +194,16 @@
 		<!-- Get the default Umbraco thumbnail -->
 		<xsl:variable name="thumbnail" select="concat(substring-before(translate($file, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), concat('.', umbracoExtension)), '_thumb.jpg')" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
-			<a href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)" style="float:left; width:100px; display:block; margin:0 5px 5px 0;">
-				<img style="-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);-mox-box-shadow:0 1px 2px rgba(0,0,0,0.3);box-shadow:0 1px 2px rgba(0,0,0,0.3);" src="{$thumbnail}" alt="{@nodeName}" width="100" />
+			<a class="latesteditsmedia" href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)">
+				<img src="{$thumbnail}" alt="{@nodeName}" width="100">
+					<xsl:if test="not(contains('jpg jpeg gif png tiff JPG JPEG GIF PNG TIFF', umbracoExtension))">
+						<xsl:attribute name="src">http://placehold.it/100x100&amp;text=<xsl:value-of select="umbracoExtension" /></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="umbracoWidth &lt; umbracoHeight">
+						<xsl:attribute name="width" />
+						<xsl:attribute name="height">100</xsl:attribute>
+					</xsl:if>
+				</img>
 			</a>
 		</xsl:if>
 	</xsl:template>
