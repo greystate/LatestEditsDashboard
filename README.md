@@ -24,7 +24,7 @@ It puts an "Edit" link right next to each node, so you can jump immediately to t
 * Media uploaded today
 * Media uploaded yesterday
 
-Umbraco's default thumbnail will be shown for the lateset 16 items, each wrapped in a link so you can go directly to the specific item in the Media section.
+Umbraco's default thumbnail will be shown for the latest 16 items, each wrapped in a link so you can go directly to the specific item in the Media section.
 
 **Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderId` in the XSLT - replace the zero with the id of the Media folder you want to "monitor":*
 
@@ -39,12 +39,13 @@ The best part is: It's just a standard XSLT Macro (yes, XSLT) that you can edit 
 Have to see more than 10 entries per section? Change the `itemsToShow` variable, hit "Save" - and there you have it.
 Need to filter out some DocumentTypes? Change the `nodes` variable. Etc.
 
-## Upgrade info
+## Upgrading
 
 Usually you can just upload the new XSLT file (grab it from the `dist` folder on [GitHub](https://github.com/greystate/LatestEditsDashboard/tree/master/dist)), otherwise you should uninstall the old version first, then install the new version.
 
 ## Revision History
 
+* v1.2:   Fix a few issues with Media (no thumbnail for non-image media, inconsistencies with casing of file extensions)
 * v1.1.1: Autodetect uComponents Media XSLT Extensions
 * v1.1:   Add latest Media uploads from specific folder
 * v1.0.2: Added proper icon; refactored code
