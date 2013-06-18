@@ -188,7 +188,7 @@
 	<xsl:template match="*" mode="media">
 		<xsl:variable name="file" select="umbracoFile" />
 		<!-- Get the default Umbraco thumbnail -->
-		<xsl:variable name="thumbnail" select="concat(substring-before($file, concat('.', umbracoExtension)), '_thumb.jpg')" />
+		<xsl:variable name="thumbnail" select="concat(substring-before(translate($file, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), concat('.', umbracoExtension)), '_thumb.jpg')" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
 			<a href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)" style="float:left; width:100px; display:block; margin:0 5px 5px 0;">
 				<img style="-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);-mox-box-shadow:0 1px 2px rgba(0,0,0,0.3);box-shadow:0 1px 2px rgba(0,0,0,0.3);" src="{$thumbnail}" alt="{@nodeName}" width="100" />
