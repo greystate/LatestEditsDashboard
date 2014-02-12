@@ -63,6 +63,34 @@
 			</x:scenario>
 			
 		</x:scenario>
+		
+		<x:scenario label="with a set of legacy schema nodes">
+			<x:call>
+				<x:param name="nodes" select="document('fixture-legacy.xml', /)/root/node" />
+			</x:call>
+			<x:expect label="they should sort by the createDate attribute" test="div/ol">
+				<ol>
+					<li><span style="...">...</span>: <span>Page C </span><a href="..." title="...">...</a></li>
+					<li><span style="...">...</span>: <span>Page B </span><a href="..." title="...">...</a></li>
+					<li><span style="...">...</span>: <span>Page A </span><a href="..." title="...">...</a></li>
+				</ol>
+			</x:expect>
+			
+			<x:scenario label="specifying 'updated' in the action parameter">
+				<x:call>
+					<x:param name="action" select="'updated'" />
+				</x:call>
+				<x:expect label="it should say 'updated today' in the header" test="contains(h3, 'updated today')" />
+				<x:expect label="they should sort by the updateDate attribute" test="div/ol">
+					<ol>
+						<li><span style="...">...</span>: <span>Page A </span><a href="..." title="...">...</a></li>
+						<li><span style="...">...</span>: <span>Page B </span><a href="..." title="...">...</a></li>
+						<li><span style="...">...</span>: <span>Page C </span><a href="..." title="...">...</a></li>
+					</ol>
+				</x:expect>
+			</x:scenario>
+			
+		</x:scenario>
 
 	</x:scenario>
 	
