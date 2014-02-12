@@ -66,7 +66,7 @@
 
 	</x:scenario>
 	
-	<x:scenario label="calling outputMediaSection" focus="Testing Media output">
+	<x:scenario label="calling outputMediaSection">
 		<x:call template="outputMediaSection" />
 
 		<x:scenario label="with an empty set">
