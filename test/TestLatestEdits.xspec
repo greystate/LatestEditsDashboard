@@ -73,19 +73,12 @@
 			<x:call>
 				<x:param name="nodes" select="/.." />
 			</x:call>
-			<x:expect label="it should default to 'created today', but return no results">
-				<h3>Media created today:</h3>
-				<div class="propertypane">
+			<x:expect label="it should default to 'Today', but return no results">
+				<h3 style="text-transform:capitalize;clear:both;">today</h3>
+				<div style="padding-bottom:20px;">
 					<p>(none)</p>
 				</div>
 			</x:expect>
-		</x:scenario>
-	
-		<x:scenario label="with the action 'created'">
-			<x:call>
-				<x:param name="action" select="'created'" />
-			</x:call>
-			<x:expect label="it should use that action in the header" test="contains(h3, 'created')" />
 		</x:scenario>
 		
 		<x:scenario label="with a set of media nodes">
@@ -93,9 +86,9 @@
 				<x:param name="nodes" select="document('media.xml', /)/root/Folder/Image" />
 			</x:call>
 			<x:expect label="they should sort by the createDate attribute" test="div/a">
-				<a href="/umbraco/editMedia.aspx?id=1146" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
-				<a href="/umbraco/editMedia.aspx?id=1145" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
-				<a href="/umbraco/editMedia.aspx?id=1144" title="Click to edit..." target="_blank"><img src="..." alt="..." height="100" /></a>
+				<a href="/umbraco/editMedia.aspx?id=1146" title="..." class="latesteditsmedia"><img src="..." alt="..." width="..." /></a>
+				<a href="/umbraco/editMedia.aspx?id=1145" title="..." class="latesteditsmedia"><img src="..." alt="..." width="..." /></a>
+				<a href="/umbraco/editMedia.aspx?id=1144" title="..." class="latesteditsmedia"><img src="..." alt="..." height="..." width="..." /></a>
 			</x:expect>
 		</x:scenario>
 
