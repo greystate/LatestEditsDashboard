@@ -45,6 +45,7 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 
 ## Revision History
 
+* v1.3:   Add support for the legacy XML Schema
 * v1.2:   Fix & improve Media rendering (fixes for no thumbnail for non-image media + inconsistencies with casing of file extensions)
 * v1.1.1: Autodetect uComponents Media XSLT Extensions
 * v1.1:   Add latest Media uploads from specific folder
