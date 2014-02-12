@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?umbraco-package "Latest Edits Dashboard (v1.2)"?>
+<?umbraco-package "Latest Edits Dashboard (v1.3)"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" xmlns:ucom="urn:ucomponents.media" xmlns:make="urn:schemas-microsoft-com:xslt" version="1.0" exclude-result-prefixes="umb ucom make">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
@@ -36,7 +36,7 @@
 	<xsl:variable name="yesterday" select="substring-before(umb:DateAdd($today, 'd', -1), 'T')"/>
 
 	<!-- Grab all nodes, so we're only "double-dashing" this once -->
-	<xsl:variable name="nodes" select="$absoluteRoot//*[@isDoc]"/>
+	<xsl:variable name="nodes" select="$absoluteRoot//(*[@isDoc] | node)"/>
 
 	<!-- Grab the Media too -->
 	<xsl:variable name="media" select="$mediaRoot//*[umbracoFile]"/>
@@ -159,10 +159,10 @@
 	</xsl:template>
 	
 	<!-- This is the output template for each item -->
-	<xsl:template match="*[@isDoc]">
+	<xsl:template match="*[@isDoc] | node">
 		<xsl:if test="position() &lt;= $itemsToShow">
 			<li>
-				<span style="color:#999;"><xsl:value-of select="name()"/></span>
+				<span style="color:#999;"><xsl:value-of select="concat(name(self::*[not(self::node)]), self::node/@nodeTypeAlias)"/></span>
 				<xsl:text>: </xsl:text>
 				<span><xsl:value-of select="concat(@nodeName, ' ')"/></span>
 				<xsl:apply-templates select="." mode="editLink"/>
@@ -195,11 +195,11 @@
 		<li style="list-style-type:square;">(none)</li>
 	</xsl:template>
 
-	<xsl:template match="*[@isDoc]" mode="editLink">
+	<xsl:template match="*[@isDoc] | node" mode="editLink">
 		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">Edit</a>
 	</xsl:template>
 		
-	<xsl:template match="*[@isDoc]" mode="xmldumpLink">
+	<xsl:template match="*[@isDoc] | node" mode="xmldumpLink">
 		<xsl:if test="$hasXMLDump">
 			<xsl:text> | </xsl:text>
 			<a href="/xmldump?id={@id}" target="_blank" title="View XMLDump...">XML</a>
