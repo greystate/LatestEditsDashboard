@@ -197,7 +197,9 @@
 			<li>
 				<span style="color:#999;"><xsl:value-of select="&DocumentTypeAlias;" /></span>
 				<xsl:text>: </xsl:text>
-				<span><xsl:value-of select="concat(@nodeName, ' ')" /></span>
+				<span title="Edited by {@writerName}" style="cursor:help">
+					<xsl:value-of select="concat(@nodeName, ' ')" />
+				</span>
 				<xsl:apply-templates select="." mode="editLink" />
 				<xsl:apply-templates select="." mode="xmldumpLink" />
 			</li>
