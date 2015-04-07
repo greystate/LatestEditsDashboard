@@ -66,7 +66,7 @@
 	<!-- Grab the Media too -->
 	<xsl:variable name="media" select="$mediaRoot//*[umbracoFile]" />
 	
-	<!-- Check if XMLDump is active -->
+	<!-- Check if XMLDump is active (if you're using XMLDump v0.9.3+ you need to manually set this to true())-->
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
 
 	<!-- Select ourselves some Content nodes -->
