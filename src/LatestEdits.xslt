@@ -11,6 +11,7 @@
 	<!ENTITY UpdatedYesterday "starts-with(@updateDate, $yesterday)">
 	
 	<!ENTITY DocumentNode "*[@isDoc] | node">
+	<!ENTITY AllDocumentNodes "$absoluteRoot//*[@isDoc] | $absoluteRoot//node">
 	<!ENTITY DocumentTypeAlias "concat(name(self::*[not(self::node)]), self::node/@nodeTypeAlias)">
 ]>
 <?umbraco-package ?>
@@ -60,7 +61,7 @@
 	<xsl:variable name="yesterday" select="substring-before(umb:DateAdd($today, 'd', -1), 'T')" />
 
 	<!-- Grab all nodes, so we're only "double-dashing" this once -->
-	<xsl:variable name="nodes" select="$absoluteRoot//(&DocumentNode;)" />
+	<xsl:variable name="nodes" select="&AllDocumentNodes;" />
 
 	<!-- Grab the Media too -->
 	<xsl:variable name="media" select="$mediaRoot//*[umbracoFile]" />
