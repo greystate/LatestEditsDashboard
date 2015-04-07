@@ -35,6 +35,9 @@
 	<!-- Check for uComponents availability -->
 	<xsl:variable name="uComponentsAvailable" select="function-available('&GetMediaByXPath;')" />
 
+	<!-- Using Umbraco 7+? -->
+	<xsl:variable name="isUmbraco7" select="function-available('umb:JsonToXml')" />
+
 	<!-- If you don't have uComponents (or haven't activated the Media XSLT extensions), you need to put a Media Folder id in here: -->
 	<xsl:variable name="mediaFolderId" select="0" />
 	<xsl:variable name="mediaRootProxy">
@@ -198,6 +201,10 @@
 		<xsl:variable name="thumbnail" select="concat(substring-before(translate($file, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), concat('.', umbracoExtension)), '_thumb.jpg')" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
 			<a class="latesteditsmedia" href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)">
+				<xsl:if test="$isUmbraco7">
+					<xsl:attribute name="href"><xsl:value-of select="concat('/umbraco/#/media/media/edit/', @id)" /></xsl:attribute>
+					<xsl:attribute name="target">_top</xsl:attribute>
+				</xsl:if>
 				<img src="{$thumbnail}" alt="{@nodeName}" width="100">
 					<xsl:if test="not(contains('jpg jpeg gif png tiff JPG JPEG GIF PNG TIFF', umbracoExtension))">
 						<xsl:attribute name="src">http://placehold.it/100x100&amp;text=<xsl:value-of select="umbracoExtension" /></xsl:attribute>
@@ -217,7 +224,13 @@
 	</xsl:template>
 
 	<xsl:template match="&DocumentNode;" mode="editLink">
-		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">Edit</a>
+		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">
+			<xsl:if test="$isUmbraco7">
+				<xsl:attribute name="href"><xsl:value-of select="concat('/umbraco/#/content/content/edit/', @id)" /></xsl:attribute>
+				<xsl:attribute name="target">_top</xsl:attribute>
+			</xsl:if>
+			<xsl:text>Edit</xsl:text>
+		</a>
 	</xsl:template>
 		
 	<xsl:template match="&DocumentNode;" mode="xmldumpLink">
