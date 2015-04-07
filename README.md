@@ -63,4 +63,3 @@ Thanks:
 * [Dan Brendstrup](http://twitter.com/bewildergeist)
 * [Sebastiaan Janssen](http://twitter.com/cultiv)
 * [Kasper Dyrvig](http://twitter.com/kasperdyrvig)
-* 
