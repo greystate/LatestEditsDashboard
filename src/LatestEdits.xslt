@@ -50,7 +50,7 @@
 				<xsl:copy-of select="&GetMediaFolder;" />
 			</xsl:when>
 			<xsl:otherwise>
-				<message>(Not configured yet)</message>
+				<message>(Media not configured yet)</message>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -93,10 +93,15 @@
 		<style type="text/css">
 			a.latesteditsmedia { border: 1px solid #999; float: left; width: 120px; height: 120px; display: block; text-align: center; margin: 0 5px 5px 0; background: #eee; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3); -mox-box-shadow: 0 1px 2px rgba(0,0,0,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
 			.latesteditsmedia img { margin: 8px; border: 1px solid #ccc; }
+			<xsl:if test="$isUmbraco7">
+				<xsl:text>.dashboardWrapper a { text-decoration: underline; }</xsl:text>
+			</xsl:if>
 		</style>
 		<div class="dashboardWrapper" style="width:48%;float:left;">
-			<h2>Latest edits</h2>
-			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
+			<xsl:if test="not($isUmbraco7)">
+				<h2>Latest edits</h2>
+				<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
+			</xsl:if>
 				
 			<xsl:call-template name="outputSection">
 				<xsl:with-param name="nodes" select="$nodesCreatedToday" />
@@ -124,7 +129,9 @@
 		</div>
 		
 		<div class="dashboardWrapper" style="width:48%;float:right;">
-			<h2 style="padding-left:0">New media uploads</h2>
+			<xsl:if test="not($isUmbraco7)">
+				<h2 style="padding-left:0">New media uploads</h2>
+			</xsl:if>
 			
 			<xsl:if test="$mediaRoot[message]">
 				<p style="color:#900">
@@ -155,7 +162,8 @@
 		<h3>
 			<xsl:value-of select="concat('Pages ', $action, ' ', $when, ':')" />
 		</h3>
-		<div class="propertypane">
+		<div>
+			<xsl:if test="not($isUmbraco7)"><xsl:attribute name="class">propertypane</xsl:attribute></xsl:if>
 			<ol>
 				<xsl:apply-templates select="$nodes">
 					<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
