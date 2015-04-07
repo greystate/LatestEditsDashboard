@@ -215,6 +215,12 @@
 					<xsl:attribute name="target">_top</xsl:attribute>
 				</xsl:if>
 				<img src="{$thumbnail}" alt="{@nodeName}" width="100">
+					<xsl:if test="$isUmbraco7">
+						<xsl:attribute name="src">
+							<xsl:value-of select="umb:JsonToXml($file)/src" />
+							<xsl:text>?width=200&amp;height=200&amp;mode=crop</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:if test="not(contains('jpg jpeg gif png tiff JPG JPEG GIF PNG TIFF', umbracoExtension))">
 						<xsl:attribute name="src">http://placehold.it/100x100&amp;text=<xsl:value-of select="umbracoExtension" /></xsl:attribute>
 					</xsl:if>
