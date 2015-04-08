@@ -11,6 +11,7 @@
 	<!ENTITY UpdatedYesterday "starts-with(@updateDate, $yesterday)">
 	
 	<!ENTITY DocumentNode "*[@isDoc] | node">
+	<!ENTITY AllDocumentNodes "$absoluteRoot//*[@isDoc] | $absoluteRoot//node">
 	<!ENTITY DocumentTypeAlias "concat(name(self::*[not(self::node)]), self::node/@nodeTypeAlias)">
 ]>
 <?umbraco-package ?>
@@ -35,6 +36,9 @@
 	<!-- Check for uComponents availability -->
 	<xsl:variable name="uComponentsAvailable" select="function-available('&GetMediaByXPath;')" />
 
+	<!-- Using Umbraco 7+? -->
+	<xsl:variable name="isUmbraco7" select="function-available('umb:JsonToXml')" />
+
 	<!-- If you don't have uComponents (or haven't activated the Media XSLT extensions), you need to put a Media Folder id in here: -->
 	<xsl:variable name="mediaFolderId" select="0" />
 	<xsl:variable name="mediaRootProxy">
@@ -46,7 +50,7 @@
 				<xsl:copy-of select="&GetMediaFolder;" />
 			</xsl:when>
 			<xsl:otherwise>
-				<message>(Not configured yet)</message>
+				<message>(Media not configured yet)</message>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -57,12 +61,12 @@
 	<xsl:variable name="yesterday" select="substring-before(umb:DateAdd($today, 'd', -1), 'T')" />
 
 	<!-- Grab all nodes, so we're only "double-dashing" this once -->
-	<xsl:variable name="nodes" select="$absoluteRoot//(&DocumentNode;)" />
+	<xsl:variable name="nodes" select="&AllDocumentNodes;" />
 
 	<!-- Grab the Media too -->
 	<xsl:variable name="media" select="$mediaRoot//*[umbracoFile]" />
 	
-	<!-- Check if XMLDump is active -->
+	<!-- Check if XMLDump is active (if you're using XMLDump v0.9.3+ you need to manually set this to true())-->
 	<xsl:variable name="hasXMLDump" select="boolean($nodes[xmldumpAllowedIPs])" />
 
 	<!-- Select ourselves some Content nodes -->
@@ -89,10 +93,15 @@
 		<style type="text/css">
 			a.latesteditsmedia { border: 1px solid #999; float: left; width: 120px; height: 120px; display: block; text-align: center; margin: 0 5px 5px 0; background: #eee; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3); -mox-box-shadow: 0 1px 2px rgba(0,0,0,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
 			.latesteditsmedia img { margin: 8px; border: 1px solid #ccc; }
+			<xsl:if test="$isUmbraco7">
+				<xsl:text>.dashboardWrapper a { text-decoration: underline; }</xsl:text>
+			</xsl:if>
 		</style>
 		<div class="dashboardWrapper" style="width:48%;float:left;">
-			<h2>Latest edits</h2>
-			<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
+			<xsl:if test="not($isUmbraco7)">
+				<h2>Latest edits</h2>
+				<img src="/usercontrols/Vokseverk/LatestEditsDashboard/LatestEditsIcon_32x32.png" alt="Latest Edits Icon" class="dashboardIcon" />
+			</xsl:if>
 				
 			<xsl:call-template name="outputSection">
 				<xsl:with-param name="nodes" select="$nodesCreatedToday" />
@@ -120,7 +129,9 @@
 		</div>
 		
 		<div class="dashboardWrapper" style="width:48%;float:right;">
-			<h2 style="padding-left:0">New media uploads</h2>
+			<xsl:if test="not($isUmbraco7)">
+				<h2 style="padding-left:0">New media uploads</h2>
+			</xsl:if>
 			
 			<xsl:if test="$mediaRoot[message]">
 				<p style="color:#900">
@@ -151,7 +162,8 @@
 		<h3>
 			<xsl:value-of select="concat('Pages ', $action, ' ', $when, ':')" />
 		</h3>
-		<div class="propertypane">
+		<div>
+			<xsl:if test="not($isUmbraco7)"><xsl:attribute name="class">propertypane</xsl:attribute></xsl:if>
 			<ol>
 				<xsl:apply-templates select="$nodes">
 					<xsl:sort select="@updateDate[$action = 'updated']" data-type="text" order="descending" />
@@ -185,7 +197,9 @@
 			<li>
 				<span style="color:#999;"><xsl:value-of select="&DocumentTypeAlias;" /></span>
 				<xsl:text>: </xsl:text>
-				<span><xsl:value-of select="concat(@nodeName, ' ')" /></span>
+				<span title="Edited by {@writerName}" style="cursor:help">
+					<xsl:value-of select="concat(@nodeName, ' ')" />
+				</span>
 				<xsl:apply-templates select="." mode="editLink" />
 				<xsl:apply-templates select="." mode="xmldumpLink" />
 			</li>
@@ -198,7 +212,17 @@
 		<xsl:variable name="thumbnail" select="concat(substring-before(translate($file, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), concat('.', umbracoExtension)), '_thumb.jpg')" />
 		<xsl:if test="position() &lt;= $mediaItemsToShow">
 			<a class="latesteditsmedia" href="/umbraco/editMedia.aspx?id={@id}" title="{@nodeName} (Click to edit)">
+				<xsl:if test="$isUmbraco7">
+					<xsl:attribute name="href"><xsl:value-of select="concat('/umbraco/#/media/media/edit/', @id)" /></xsl:attribute>
+					<xsl:attribute name="target">_top</xsl:attribute>
+				</xsl:if>
 				<img src="{$thumbnail}" alt="{@nodeName}" width="100">
+					<xsl:if test="$isUmbraco7">
+						<xsl:attribute name="src">
+							<xsl:value-of select="umb:JsonToXml($file)/src" />
+							<xsl:text>?width=200&amp;height=200&amp;mode=crop</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:if test="not(contains('jpg jpeg gif png tiff JPG JPEG GIF PNG TIFF', umbracoExtension))">
 						<xsl:attribute name="src">http://placehold.it/100x100&amp;text=<xsl:value-of select="umbracoExtension" /></xsl:attribute>
 					</xsl:if>
@@ -217,7 +241,13 @@
 	</xsl:template>
 
 	<xsl:template match="&DocumentNode;" mode="editLink">
-		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">Edit</a>
+		<a href="/umbraco/editContent.aspx?id={@id}" title="Click to edit...">
+			<xsl:if test="$isUmbraco7">
+				<xsl:attribute name="href"><xsl:value-of select="concat('/umbraco/#/content/content/edit/', @id)" /></xsl:attribute>
+				<xsl:attribute name="target">_top</xsl:attribute>
+			</xsl:if>
+			<xsl:text>Edit</xsl:text>
+		</a>
 	</xsl:template>
 		
 	<xsl:template match="&DocumentNode;" mode="xmldumpLink">

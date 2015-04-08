@@ -17,7 +17,8 @@ Each node displayed will show the DocumentType's alias and the Name of the node,
 	2. BlogPost: Crywolf interviewed
 	etc.
 
-It puts an "Edit" link right next to each node, so you can jump immediately to the editing page for it. If you're using the XMLDump package, there's also an "XML" link that opens the page in XMLDump for you.
+It puts an "Edit" link right next to each node, so you can jump immediately to the editing page for it. If you're using the XMLDump package, there's also an "XML" link that opens the page in XMLDump for you. *(Note: If you're using XMLDump 0.9.3 or later, you'll need to manually enable this, by explicitly setting the `$hasXMLDump` variable to `true()`, because we can't autodetect the custom config file.)*
+
 
 ## Media
 
@@ -45,6 +46,7 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 
 ## Revision History
 
+* v1.4:   Add support for Umbraco 7
 * v1.3:   Add support for the legacy XML Schema
 * v1.2:   Fix & improve Media rendering (fixes for no thumbnail for non-image media + inconsistencies with casing of file extensions)
 * v1.1.1: Autodetect uComponents Media XSLT Extensions
@@ -52,7 +54,7 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 * v1.0.2: Added proper icon; refactored code
 * v1.0:   Initial release
 
-/Chriztian Steinmeier, May 2012
+/Chriztian Steinmeier, April 2015 (Initial version: May 2012)
 
 Thanks:
 
@@ -60,3 +62,4 @@ Thanks:
 * [Douglas Robar](http://twitter.com/drobar)
 * [Dan Brendstrup](http://twitter.com/bewildergeist)
 * [Sebastiaan Janssen](http://twitter.com/cultiv)
+* [Kasper Dyrvig](http://twitter.com/kasperdyrvig)
