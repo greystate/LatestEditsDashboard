@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?umbraco-package "Latest Edits Dashboard (v1.4)"?>
+<?umbraco-package "Latest Edits Dashboard (v1.5)"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:umb="urn:umbraco.library" xmlns:ucom="urn:ucomponents.media" xmlns:make="urn:schemas-microsoft-com:xslt" version="1.0" exclude-result-prefixes="umb ucom make">
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
@@ -18,14 +18,16 @@
 	<xsl:variable name="isUmbraco7" select="function-available('umb:JsonToXml')"/>
 
 	<!-- If you don't have uComponents (or haven't activated the Media XSLT extensions), you need to put a Media Folder id in here: -->
-	<xsl:variable name="mediaFolderId" select="0"/>
+	<xsl:variable name="mediaFolderIds" select="0"/>
 	<xsl:variable name="mediaRootProxy">
 		<xsl:choose>
 			<xsl:when test="$uComponentsAvailable">
 				<xsl:copy-of select="ucom:GetMediaByXPath('/')"/>
 			</xsl:when>
-			<xsl:when test="$mediaFolderId &gt; 0">
-				<xsl:copy-of select="umb:GetMedia($mediaFolderId, true())"/>
+			<xsl:when test="normalize-space($mediaFolderIds) and not($mediaFolderIds = 0)">
+				<xsl:for-each select="umb:Split($mediaFolderIds, ',')/value">
+					<xsl:copy-of select="umb:GetMedia(., true())"/>
+				</xsl:for-each>
 			</xsl:when>
 			<xsl:otherwise>
 				<message>(Media not configured yet)</message>
