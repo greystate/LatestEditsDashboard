@@ -27,10 +27,15 @@ It puts an "Edit" link right next to each node, so you can jump immediately to t
 
 Umbraco's default thumbnail will be shown for the latest 16 items, each wrapped in a link so you can go directly to the specific item in the Media section.
 
-**Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderId` in the XSLT - replace the zero with the id of the Media folder you want to "monitor":*
+**Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderIds` in the XSLT - replace the zero with the ids of the Media folders (comma-separated) you want to "monitor", e.g.:*
 
 ```xslt
-<xsl:variable name="mediaFolderId" select="0" />
+<!-- Change this -->
+<xsl:variable name="mediaFolderIds" select="0" />
+
+<!-- To something like this -->
+<xsl:variable name="mediaFolderIds" select="1138,2001,1337" />
+
 ```
 
 ## Customization
@@ -46,6 +51,7 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 
 ## Revision History
 
+* v1.5:   Support multiple folder IDs
 * v1.4:   Add support for Umbraco 7
 * v1.3:   Add support for the legacy XML Schema
 * v1.2:   Fix & improve Media rendering (fixes for no thumbnail for non-image media + inconsistencies with casing of file extensions)
@@ -54,7 +60,7 @@ Usually you can just upload the new XSLT file (grab it from the `dist` folder on
 * v1.0.2: Added proper icon; refactored code
 * v1.0:   Initial release
 
-/Chriztian Steinmeier, April 2015 (Initial version: May 2012)
+/Chriztian Steinmeier, May 2015 (Initial version: May 2012)
 
 Thanks:
 
