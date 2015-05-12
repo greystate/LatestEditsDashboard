@@ -27,14 +27,14 @@ It puts an "Edit" link right next to each node, so you can jump immediately to t
 
 Umbraco's default thumbnail will be shown for the latest 16 items, each wrapped in a link so you can go directly to the specific item in the Media section.
 
-**Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderIds` in the XSLT - replace the zero with the ids of the Media folders (comma-separated) you want to "monitor", e.g.:*
+**Note:** *The XSLT will auto-detect the presence of uComponents' Media XSLT Extensions - if you haven't installed those, look for the variable `mediaFolderIds` in the XSLT - replace the zero with the ids of the Media folders (comma-separated, wrapped in single quotes) you want to "monitor", e.g.:*
 
 ```xslt
 <!-- Change this -->
 <xsl:variable name="mediaFolderIds" select="0" />
 
 <!-- To something like this -->
-<xsl:variable name="mediaFolderIds" select="1138,2001,1337" />
+<xsl:variable name="mediaFolderIds" select="'1138,2001,1337'" />
 
 ```
 
