@@ -2,7 +2,7 @@
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY GetRootNode "umb:GetXmlNodeByXPath('/root')">
 	<!ENTITY mediaFolderId "0">
-	<!ENTITY GetMediaFolder "umb:GetMedia($mediaFolderId, true())">
+	<!ENTITY GetMediaFolder "umb:GetMedia(., true())">
 	<!ENTITY GetMediaByXPath "ucom:GetMediaByXPath">
 	
 	<!ENTITY CreatedToday "starts-with(@createDate, $today)">
@@ -40,14 +40,16 @@
 	<xsl:variable name="isUmbraco7" select="function-available('umb:JsonToXml')" />
 
 	<!-- If you don't have uComponents (or haven't activated the Media XSLT extensions), you need to put a Media Folder id in here: -->
-	<xsl:variable name="mediaFolderId" select="0" />
+	<xsl:variable name="mediaFolderIds" select="&mediaFolderId;" />
 	<xsl:variable name="mediaRootProxy">
 		<xsl:choose>
 			<xsl:when test="$uComponentsAvailable">
 				<xsl:copy-of select="&GetMediaByXPath;('/')" />
 			</xsl:when>
-			<xsl:when test="$mediaFolderId &gt; 0">
-				<xsl:copy-of select="&GetMediaFolder;" />
+			<xsl:when test="normalize-space($mediaFolderIds) and not($mediaFolderIds = 0)">
+				<xsl:for-each select="umb:Split($mediaFolderIds, ',')/value">
+					<xsl:copy-of select="&GetMediaFolder;" />
+				</xsl:for-each>
 			</xsl:when>
 			<xsl:otherwise>
 				<message>(Media not configured yet)</message>
